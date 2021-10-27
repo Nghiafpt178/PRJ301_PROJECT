@@ -23,12 +23,36 @@ import model.Tour;
  */
 public class TourDBContext extends DBContext {
 
+  public ArrayList<ToursType> getToursType() {
+        ArrayList<ToursType> toursType = new ArrayList<>();
+        try {
+            String sql = "select id,name\n"
+                    + "from Tours_type";
+            PreparedStatement stm = connection.prepareStatement(sql);
+
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                ToursType tp = new ToursType();
+                tp.setId(rs.getInt("id"));
+                tp.setName(rs.getString("name"));
+                toursType.add(tp);
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TourDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return toursType;
+
+    }
+
     public ArrayList<Tour> getTours() {
         ArrayList<Tour> tours = new ArrayList<>();
         try {
             String sql = "SELECT [tourCode],[tourName],[tourPrice],[tourNumberGuests],\n"
                     + "[tourStartDate],[tourTime],[tourEndDate],[tourSchedule],[tourDescription],\n"
-                    + "[tourVehicle],[status],[img]  \n"
+                    + "[tourVehicle],tourType,[img]  \n"
                     + "  FROM [Tour] ";
             PreparedStatement stm = connection.prepareStatement(sql);
 
@@ -45,7 +69,7 @@ public class TourDBContext extends DBContext {
                 t.setSchedule(rs.getString("tourSchedule"));
                 t.setDescription(rs.getString("tourDescription"));
                 t.setVehicle(rs.getString("tourVehicle"));
-                t.setStatus(rs.getInt("status"));
+                t.setTourType(rs.getInt("tourType"));
                 t.setImg(rs.getString("img"));
                 tours.add(t);
 
@@ -63,10 +87,10 @@ public class TourDBContext extends DBContext {
         ArrayList<Tour> tours = new ArrayList<>();
         try {
             String sql = "select tourCode, tourName,tourPrice,tourNumberGuests,tourStartDate,tourTime"
-                    + ",tourEndDate,tourSchedule ,tourDescription ,tourVehicle,status,img  from\n"
+                    + ",tourEndDate,tourSchedule ,tourDescription ,tourVehicle,tourType,img  from\n"
                     + "(select ROW_NUMBER() OVER (Order by tourCode) as rownum,\n"
                     + "tourCode, tourName,tourPrice,tourNumberGuests,tourStartDate,tourTime"
-                    + ",tourEndDate,tourSchedule ,tourDescription ,tourVehicle,status,img \n"
+                    + ",tourEndDate,tourSchedule ,tourDescription ,tourVehicle,tourType,img \n"
                     + "from Tour) t\n"
                     + "where rownum >= (?- 1)*?+1 \n"
                     + "and rownum <= ? * ?";
@@ -89,7 +113,7 @@ public class TourDBContext extends DBContext {
                 t.setSchedule(rs.getString("tourSchedule"));
                 t.setDescription(rs.getString("tourDescription"));
                 t.setVehicle(rs.getString("tourVehicle"));
-                t.setStatus(rs.getInt("status"));
+                t.setTourType(rs.getInt("tourType"));
                 t.setImg(rs.getString("img"));
                 tours.add(t);
 
@@ -103,15 +127,16 @@ public class TourDBContext extends DBContext {
 
     }
 
-    public ArrayList<Tour> getToursByTitle(int status) {
+    public ArrayList<Tour> getToursByTitle(int tourType) {
         ArrayList<Tour> tours = new ArrayList<>();
         try {
-            String sql = "SELECT [tourCode],[tourName],[tourPrice],[tourNumberGuests],\n"
-                    + "[tourStartDate],[tourTime],[tourEndDate],[tourSchedule],[tourDescription],\n"
-                    + "[tourVehicle],[status],[img]  \n"
-                    + "  FROM [Tour] WHERE [status] = ?";
+            String sql = "select t.tourCode, t.tourType, t.tourName, t.tourPrice,\n"
+                    + "t.tourNumberGuests, t.tourStartDate, t.tourTime, t.tourEndDate,\n"
+                    + "t.tourSchedule, t.tourDescription, t.tourVehicle, t.img\n"
+                    + "from Tour t inner join Tours_Type tp\n"
+                    + "on t.tourType = tp.id where t.tourType = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setInt(1, status);
+            stm.setInt(1, tourType);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Tour t = new Tour();
@@ -125,7 +150,7 @@ public class TourDBContext extends DBContext {
                 t.setSchedule(rs.getString("tourSchedule"));
                 t.setDescription(rs.getString("tourDescription"));
                 t.setVehicle(rs.getString("tourVehicle"));
-                t.setStatus(rs.getInt("status"));
+                t.setTourType(rs.getInt("tourType"));
                 t.setImg(rs.getString("img"));
                 tours.add(t);
 
@@ -144,7 +169,7 @@ public class TourDBContext extends DBContext {
         try {
             String sql = "SELECT [tourCode],[tourName],[tourPrice],[tourNumberGuests],\n"
                     + "[tourStartDate],[tourTime],[tourEndDate],[tourSchedule],[tourDescription],\n"
-                    + "[tourVehicle],[status],[img] \n"
+                    + "[tourVehicle],tourType,[img] \n"
                     + "  FROM [Tour] WHERE [tourCode] = ?";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, tcode);
@@ -161,7 +186,7 @@ public class TourDBContext extends DBContext {
                 t.setSchedule(rs.getString("tourSchedule"));
                 t.setDescription(rs.getString("tourDescription"));
                 t.setVehicle(rs.getString("tourVehicle"));
-                t.setStatus(rs.getInt("status"));
+                t.setTourType(rs.getInt("tourType"));
                 t.setImg(rs.getString("img"));
 
                 return t;
@@ -228,7 +253,7 @@ public class TourDBContext extends DBContext {
         try {
             String sql = "SELECT [tourCode],[tourName],[tourPrice],[tourNumberGuests],\n"
                     + "[tourStartDate],[tourTime],[tourEndDate],[tourSchedule],[tourDescription],\n"
-                    + "[tourVehicle],[status],[img]\n"
+                    + "[tourVehicle],tourType,[img]\n"
                     + "  FROM [Tour] where (1=1)\n";
 
             HashMap<Integer, Object[]> params = new HashMap<>();
@@ -289,7 +314,7 @@ public class TourDBContext extends DBContext {
                 t.setSchedule(rs.getString("tourSchedule"));
                 t.setDescription(rs.getString("tourDescription"));
                 t.setVehicle(rs.getString("tourVehicle"));
-                t.setStatus(rs.getInt("status"));
+                t.setTourType(rs.getInt("tourType"));
                 t.setImg(rs.getString("img"));
                 searchTour.add(t);
 
@@ -351,29 +376,122 @@ public class TourDBContext extends DBContext {
         return bookTours;
 
     }
-    
-    public int getRowCount(){
-        
-        String sql ="select count(*) as total from Tour";
+
+    public int getRowCount() {
+
+        String sql = "select count(*) as total from Tour";
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 return rs.getInt("total");
             }
         } catch (SQLException ex) {
             Logger.getLogger(TourDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
         return 0;
     }
-    
 
-    public static void main(String[] args) {
-        TourDBContext tourDB = new TourDBContext();
-        int rowCount = tourDB.getRowCount();
-        System.out.println(rowCount);
+    public void saveTours(Tour t) {
+
+        try {
+            String sql = "UPDATE [dbo].[Tour]\n"
+                    + "   SET \n"
+                    + "       [tourName] = ?\n"
+                    + "      ,[tourPrice] = ?\n"
+                    + "      ,[tourNumberGuests] = ?\n"
+                    + "      ,[tourStartDate] =  ?\n"
+                    + "      ,[tourTime] =  ?\n"
+                    + "      ,[tourEndDate] =  ?\n"
+                    + "      ,[tourSchedule] =  ?\n"
+                    + "      ,[tourDescription] =  ?\n"
+                    + "      ,[tourVehicle] =  ?\n"
+                    + "      ,tourType =  ?\n"
+                    + "      ,[img] =  ?\n"
+                    + " WHERE [tourCode] = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, t.getTourName());
+            stm.setInt(2, t.getTourPrice());
+            stm.setInt(3, t.getNumberGuests());
+            stm.setDate(4, t.getStartDate());
+            stm.setString(5, t.getDateTime());
+            stm.setDate(6, t.getEndDate());
+            stm.setString(7, t.getSchedule());
+            stm.setString(8, t.getDescription());
+            stm.setString(9, t.getVehicle());
+            stm.setInt(10, t.getTourType());
+            stm.setString(11, t.getImg());
+            stm.setString(12, t.getTourCode());
+            stm.executeUpdate();
+
+        } catch (SQLException e) {
+            Logger.getLogger(TourDBContext.class.getName()).log(Level.SEVERE, null, e);
+        }
+
+    }
+
+    public void addTours(Tour t) {
+        try {
+            String sql = "INSERT INTO [Tour]\n"
+                    + "           ([tourCode]\n"
+                    + "           ,[tourType]\n"
+                    + "           ,[tourName]\n"
+                    + "           ,[tourPrice]\n"
+                    + "           ,[tourNumberGuests]\n"
+                    + "           ,[tourStartDate]\n"
+                    + "           ,[tourTime]\n"
+                    + "           ,[tourEndDate]\n"
+                    + "           ,[tourSchedule]\n"
+                    + "           ,[tourDescription]\n"
+                    + "           ,[tourVehicle]\n"
+                    + "           ,[img])\n"
+                    + "     VALUES\n"
+                    + "           (?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?\n"
+                    + "           ,?)";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, t.getTourCode());
+            stm.setInt(2, t.getTourType());
+            stm.setString(3, t.getTourName());
+            stm.setInt(4, t.getTourPrice());
+            stm.setInt(5, t.getNumberGuests());
+            stm.setDate(6, t.getStartDate());
+            stm.setString(7, t.getDateTime());
+            stm.setDate(8, t.getEndDate());
+            stm.setString(9, t.getSchedule());
+            stm.setString(10, t.getDescription());
+            stm.setString(11, t.getVehicle());
+            stm.setString(12, t.getImg());
+
+            stm.executeUpdate();
+
+        } catch (SQLException e) {
+            Logger.getLogger(TourDBContext.class.getName()).log(Level.SEVERE, null, e);
+        }
+
+    }
+
+    public void deleteTours(String tourCode) {
+        try {
+            String sql = "DELETE FROM [Tour]\n"
+                    + "      WHERE tourCode = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, tourCode);
+            stm.executeUpdate();
+
+        } catch (SQLException e) {
+            Logger.getLogger(TourDBContext.class.getName()).log(Level.SEVERE, null, e);
+        }
 
     }
 }
