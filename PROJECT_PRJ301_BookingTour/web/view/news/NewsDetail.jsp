@@ -16,7 +16,7 @@
         <jsp:include page="../home/Header.jsp"></jsp:include>
             <div class="container">
                 <h1>${news.title}</h1>
-            <image src="${news.image}"/>
+            <image src="../images/${news.image}"/>
             <p>
                 ${news.desciption}
             </p>
