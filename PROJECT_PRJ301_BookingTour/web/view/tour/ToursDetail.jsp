@@ -29,12 +29,12 @@
                         <div class="row g-0">
                             <div class="col-md-6 border-end">
                                 <div class="d-flex flex-column justify-content-center">
-                                    <div class="main_image"> <img src="${tourByCode.img}" id="main_product_image" width="350"> </div>
+                                     <div class="main_image"> <img src="../images/${tourByCode.img}" id="main_product_image" width="350"> </div>
                                 <div class="thumbnail_images">
 
                                     <ul id="thumbnail">
                                         <c:forEach var="i" items="${tourByCode.imgs}">                                     
-                                            <li><img onclick="changeImage(this)" src="${i.img}" width="70"></li>
+                                            <li><img onclick="changeImage(this)" src="../images/${i.img}" width="70"></li>
                                             </c:forEach>
                                     </ul>
 
