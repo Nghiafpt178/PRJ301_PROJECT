@@ -30,7 +30,7 @@
                         <c:forEach var="n" items="${news}">
                             <div class="col-md-4 col-sm-6">
                                 <div class="single-package-item">
-                                    <img src="${n.image}" alt="package-place">
+                                    <img src="../images/${n.image}" alt="package-place">
                                     <div class="single-package-item-txt">
                                         <h3>${n.title}</h3><br>
                                         <div class="packages-review">
