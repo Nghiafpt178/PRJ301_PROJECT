@@ -34,7 +34,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Image</label>
-                                <img height="150px" width="200px" src="${toursByCode.img}"/>
+                                <img height="150px" width="200px" src="../images/${toursByCode.img}"/>
                                
                                 <input style="margin-top: 10px;" value="${toursByCode.img}" type="text" class="form-control" required>
                             </div>
