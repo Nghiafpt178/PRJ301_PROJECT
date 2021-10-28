@@ -112,7 +112,7 @@
                                     <c:forEach  var="th" items="${toursHot}">
                                         <div class="col-md-3">
                                             <div class="filtr-item">
-                                                <img src="${th.img}" alt="portfolio image"/>
+                                                <img src="../images/${th.img}" alt="portfolio image"/>
                                                 <div class="item-title" >
                                                     <a style="font-size: 15px"href="tourDetailControl?tcode=${th.tourCode}">
                                                         ${th.tourName}
@@ -152,7 +152,7 @@
 
                             <div class="col-md-4 col-sm-6">
                                 <div class="single-package-item">
-                                    <img src="${td.img}" alt="package-place">
+                                    <img src="../images/${td.img}" alt="package-place">
                                     <div class="single-package-item-txt">
                                         <h3>${td.tourName}</h3><br>
                                         <h3>${td.tourPrice}$</h3>
@@ -196,7 +196,7 @@
                                     <div class="thumbnail">
                                         <h2>trending news <span>${ln.writeDate}</span></h2>
                                         <div class="thumbnail-img">
-                                            <img src="${ln.image}" alt="blog-img">
+                                            <img src="$../images/{ln.image}" alt="blog-img">
                                             <div class="thumbnail-img-overlay"></div><!--/.thumbnail-img-overlay-->
 
                                         </div><!--/.thumbnail-img-->
