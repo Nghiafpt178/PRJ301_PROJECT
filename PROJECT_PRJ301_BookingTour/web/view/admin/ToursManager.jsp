@@ -346,7 +346,7 @@
                                                 
                                                     <td>${t.tourCode}</td>
                                                     <td>${t.tourName}</td>
-                                                    <td><img width="150px;" height="150px;" src="${t.img}" alt="package-place"> </td>
+                                                    <td><img width="150px;" height="150px;" src="../images/${t.img}" alt="package-place"> </td>
                                                     <td>
                                                         *NumberGuests:${t.numberGuests}  
                                                         <br>
