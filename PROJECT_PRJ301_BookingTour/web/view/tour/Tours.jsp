@@ -35,7 +35,7 @@
 
                             <div class="col-sm-3">
                                 <div class="single-package-item">
-                                    <img src="${td.img}" alt="package-place">
+                                    <img src="../images/${td.img}" alt="package-place">
                                     <div class="single-package-item-txt">
                                         <h3>${td.tourName}</h3><br>
                                         <h3>${td.tourPrice}$</h3>
