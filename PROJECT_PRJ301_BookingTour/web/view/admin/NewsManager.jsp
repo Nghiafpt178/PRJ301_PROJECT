@@ -346,7 +346,7 @@
                                                 
                                                     <td>${n.id}</td>
                                                     <td>${n.title}</td>
-                                                    <td><img width="150px;" height="150px;" src="${n.image}" alt="package-place"> </td>
+                                                    <td><img width="150px;" height="150px;" src="../images/${n.image}" alt="package-place"> </td>
                                                     <td>
                                                         ${n.writeDate}
                                                     </td>
