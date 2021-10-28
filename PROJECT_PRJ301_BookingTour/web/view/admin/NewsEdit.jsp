@@ -34,7 +34,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Image</label>
-                                <img height="150px" width="200px" src="${newsById.image}"/>
+                                <img height="150px" width="200px" src="../images/${newsById.image}"/>
                                
                                 <input style="margin-top: 10px;" value="${newsById.image}" type="text" class="form-control" required>
                             </div>
