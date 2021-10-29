@@ -31,7 +31,7 @@ public class ToursBookedController extends HttpServlet {
         ArrayList<Booktour> toursBookedByCustomer = tourDB.getToursBookedByCustomer(username);
         request.setAttribute("toursBookedByCustomer", toursBookedByCustomer);
         
-        request.getRequestDispatcher("/view/tour/TourBooked.jsp").forward(request, response);
+        request.getRequestDispatcher("/view/customer/TourBooked.jsp").forward(request, response);
         
     }
 
