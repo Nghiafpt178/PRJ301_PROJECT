@@ -18,21 +18,39 @@ import model.Account;
  */
 public class AccountDBContext extends DBContext {
 
+    
     public Account getAccount(String username, String password) {
         try {
-            String sql = "SELECT [username]\n"
-                    + "      ,[password]\n"
-                    + "  FROM [Account] where username = ? and [password] = ?";
+            String sql = "select a.username, a.[password],f.fid,f.url\n"
+                    + " from account a\n"
+                    + "left join groupaccount ga on a.username = ga.username\n"
+                    + "left join [group] g on ga.gid = g.gid \n"
+                    + "left join GroupFeature gf on gf.gid = g.gid\n"
+                    + "left join Feature f on f.fid = gf.fid\n"
+                    + "where a.username = ? and a.password = ?\n"
+                    + "order by a.username asc, g.gid asc";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, username);
             stm.setString(2, password);
             ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
-                Account account = new Account();
+            Account account = null;
+            while (rs.next()) {
+                if(account == null){
+                account = new Account();
                 account.setUsername(username);
                 account.setPassword(password);
-                return account;
+                
+                }
+                int fid = rs.getInt("fid");
+                if(fid != 0){
+                    Feature f = new Feature();
+                    f.setId(fid);
+                    f.setUrl(rs.getString("url"));
+                    account.getFeatures().add(f);
+                }
+                
             }
+            return  account;
         } catch (SQLException ex) {
             Logger.getLogger(AccountDBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
