@@ -19,16 +19,16 @@ import model.Tour;
  *
  * @author ADMIN
  */
-public class AddToursController extends HttpServlet {
+public class AddToursController extends BaseRequiredAuthenController {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void processPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String tcode = request.getParameter("code");
         String tname = request.getParameter("name");
