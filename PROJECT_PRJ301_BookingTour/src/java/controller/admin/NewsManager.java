@@ -19,13 +19,13 @@ import model.News;
  *
  * @author ADMIN
  */
-public class NewsManager extends HttpServlet {
+public class NewsManager extends BaseRequiredAuthenController {
 
 
 
     
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         NewsDBContext newsDB = new  NewsDBContext();
         ArrayList<News> news = newsDB.getNews();
@@ -36,7 +36,7 @@ public class NewsManager extends HttpServlet {
 
    
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void processPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
     }
