@@ -19,13 +19,13 @@ import model.Booktour;
  *
  * @author ADMIN
  */
-public class ToursBookedManager extends HttpServlet {
+public class ToursBookedManager extends BaseRequiredAuthenController {
 
     
 
    
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         TourDBContext tourDB = new TourDBContext();
@@ -38,7 +38,7 @@ public class ToursBookedManager extends HttpServlet {
 
   
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void processPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        
     }
