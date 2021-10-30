@@ -18,11 +18,11 @@ import model.Tour;
  *
  * @author ADMIN
  */
-public class EditToursController extends HttpServlet {
+public class EditToursController extends BaseRequiredAuthenController {
 
     
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String tcode = request.getParameter("tcode");
         TourDBContext tourDB = new TourDBContext();
@@ -33,7 +33,7 @@ public class EditToursController extends HttpServlet {
 
    
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void processPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         
