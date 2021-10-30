@@ -16,9 +16,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ADMIN
  */
-public class DeleteTourController extends HttpServlet {
+public class DeleteTourController extends BaseRequiredAuthenController {
 
-   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+   protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String tcode = request.getParameter("tourcode");
         TourDBContext tourDB = new TourDBContext();
@@ -27,7 +27,7 @@ public class DeleteTourController extends HttpServlet {
     }
     
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void processPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
          processRequest(request, response);
     }
