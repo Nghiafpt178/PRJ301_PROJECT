@@ -19,10 +19,10 @@ import model.Tour;
  *
  * @author ADMIN
  */
-public class ToursManager extends HttpServlet {
+public class ToursManager extends BaseRequiredAuthenController {
 
   @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         TourDBContext tourDB = new TourDBContext();
         ArrayList<Tour> tours = tourDB.getTours();
@@ -34,7 +34,7 @@ public class ToursManager extends HttpServlet {
     }
     
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void processPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String tcode = request.getParameter("tcode");
         String tname = request.getParameter("tname");
