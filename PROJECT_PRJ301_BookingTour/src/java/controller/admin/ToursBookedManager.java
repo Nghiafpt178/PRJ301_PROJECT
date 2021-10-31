@@ -40,7 +40,14 @@ public class ToursBookedManager extends BaseRequiredAuthenController {
     @Override
     protected void processPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
+        int sid = Integer.parseInt(request.getParameter("sid"));
+        int bid = Integer.parseInt(request.getParameter("bid"));
+        TourDBContext  tourDB = new TourDBContext();
+        Booktour b = new Booktour();
+        b.setbTourId(bid);
+        b.setStatus(sid);
+        tourDB.updateStatus(b);
+        response.sendRedirect("toursBooked");
     }
 
   
