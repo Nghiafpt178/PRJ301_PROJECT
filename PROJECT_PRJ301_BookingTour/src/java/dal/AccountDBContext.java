@@ -76,21 +76,38 @@ public class AccountDBContext extends DBContext {
         return null;
     }
 
-    public void insertAccount(String username, String password) {
+     public void insertAccount(String username, String password) {
         try {
+
             String sql = "INSERT INTO [Account]\n"
-                    + "           ( [username]\n"
-                    + "           ,[password]\n"
-                    + "           ,[isAdmin]\n"
-                    + "           ,[isSales])\n"
+                    + "           ([username]\n"
+                    + "           ,[password])\n"
                     + "     VALUES\n"
                     + "           (?\n"
-                    + "           ,?\n"
-                    + "           ,0\n"
-                    + "           ,0)";
+                    + "           ,?)";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, username);
             stm.setString(2, password);
+            stm.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void insertGroup(int gid, String gname) {
+        try {
+
+            String sql = "INSERT INTO [GroupAccount]\n"
+                    + "           ([gid]\n"
+                    + "           ,[username])\n"
+                    + "     VALUES\n"
+                    + "           (?\n"
+                    + "           ,?)";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, gid);
+            stm.setString(2, gname);
             stm.executeUpdate();
 
         } catch (SQLException ex) {
