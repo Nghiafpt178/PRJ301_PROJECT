@@ -33,6 +33,26 @@ public class EditNewsController extends BaseRequiredAuthenController {
     @Override
     protected void processPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String requestType = request.getParameter("requestType");
+        if (requestType.equalsIgnoreCase("Cancel")) {
+            response.sendRedirect("newsManager");
+        } else {
+            int id = Integer.parseInt(request.getParameter("id"));
+            String title = request.getParameter("title");
+            String img = request.getParameter("img");
+            Date writeDate = Date.valueOf(request.getParameter("writeDate"));
+            String descrip = request.getParameter("descip");
+            News n = new News();
+            n.setId(id);
+            n.setTitle(title);
+            n.setImage(img);
+            n.setWriteDate(writeDate);
+            n.setDesciption(descrip);
+            NewsDBContext newsDB = new NewsDBContext();
+            newsDB.saveNews(n);
+            response.sendRedirect("newsManager");
+
+        }
 
     }
 
