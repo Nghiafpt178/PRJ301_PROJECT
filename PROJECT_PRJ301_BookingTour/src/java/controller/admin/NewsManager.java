@@ -27,9 +27,20 @@ public class NewsManager extends BaseRequiredAuthenController {
     @Override
     protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        NewsDBContext newsDB = new  NewsDBContext();
-        ArrayList<News> news = newsDB.getNews();
-        request.setAttribute("news", news);
+        String raw_page = request.getParameter("page");
+        if(raw_page == null || raw_page.length() == 0)
+            raw_page = "1";
+        int pageIndex = Integer.parseInt(raw_page);
+        int pageSize = 3;
+        NewsDBContext newDB = new NewsDBContext();
+        ArrayList<News> newsPagging = newDB.getNewsPagging(pageSize, pageIndex);
+        
+        int count = newDB.getRowCount();
+        int totalPage = (count % pageSize == 0)? count/pageSize: (count/pageSize)+1;
+        
+        request.setAttribute("totalPage", totalPage);
+        request.setAttribute("pageIndex", pageIndex);
+        request.setAttribute("news", newsPagging);
         request.getRequestDispatcher("/view/admin/NewsManager.jsp").forward(request, response);
         
     }
