@@ -41,15 +41,21 @@ public class EditTourBookedController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int sid = Integer.parseInt(request.getParameter("sid"));
-        int bid = Integer.parseInt(request.getParameter("bid"));
-        TourDBContext  tourDB = new TourDBContext();
-        Booktour b = new Booktour();
-        b.setbTourId(bid);
-        b.setStatus(sid);
-        tourDB.updateStatus(b);
-        
-        response.sendRedirect("toursBooked");
+        String requestType = request.getParameter("requestType");
+        if (requestType != null) {
+            if (requestType.equalsIgnoreCase("Cancel")) {
+                response.sendRedirect("toursBooked");
+            } else {
+                int sid = Integer.parseInt(request.getParameter("sid"));
+                int bid = Integer.parseInt(request.getParameter("bid"));
+                TourDBContext tourDB = new TourDBContext();
+                Booktour b = new Booktour();
+                b.setbTourId(bid);
+                b.setStatus(sid);
+                tourDB.updateStatus(b);
+                response.sendRedirect("toursBooked");
+            }
+        }
         
         
     }
