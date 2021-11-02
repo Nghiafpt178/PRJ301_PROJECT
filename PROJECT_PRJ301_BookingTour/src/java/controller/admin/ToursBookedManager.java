@@ -27,10 +27,22 @@ public class ToursBookedManager extends BaseRequiredAuthenController {
     @Override
     protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        String raw_page = request.getParameter("page");
+        if(raw_page == null || raw_page.length()== 0)
+            raw_page = "1";
+        int pageIndex = Integer.parseInt(raw_page);
+        int pageSize = 1;
         TourDBContext tourDB = new TourDBContext();
-        ArrayList<Booktour> toursBooked = tourDB.getToursBooked();
+        ArrayList<Booktour> toursBooked = tourDB.getToursBookedPagging(pageSize, pageIndex);
+        
+        int count = tourDB.getRowCountBooked();
+        int totalPage = (count % pageSize == 0) ? count/ pageSize : (count/pageSize)+1;
+        request.setAttribute("totalPage", totalPage);
+        request.setAttribute("pageIndex", pageIndex);
+     
         request.setAttribute("toursBooked", toursBooked);
+        ArrayList<BookTours_Status> bTours_Status = tourDB.getBTours_Status();
+        request.setAttribute("bTours_Status", bTours_Status);
         
         request.getRequestDispatcher("/view/admin/ToursBookedManager.jsp").forward(request, response);
         
