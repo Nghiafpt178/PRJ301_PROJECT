@@ -24,12 +24,25 @@ public class ToursManager extends BaseRequiredAuthenController {
   @Override
     protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+       String raw_page = request.getParameter("page");
+        if (raw_page == null || raw_page.length() == 0) {
+            raw_page = "1";
+        }
+        int pageIndex = Integer.parseInt(raw_page);
+        int pageSize = 5;
         TourDBContext tourDB = new TourDBContext();
-        ArrayList<Tour> tours = tourDB.getTours();
+        ArrayList<Tour> tours = tourDB.getToursPagging(pageSize, pageIndex);
+
+        int count = tourDB.getRowCount();
+        int totalPage = (count % pageSize == 0) ? count / pageSize : (count / pageSize) + 1;
+        request.setAttribute("totalPage", totalPage);
+        request.setAttribute("pageIndex", pageIndex);
+        request.setAttribute("tours", tours);
+
         ArrayList<ToursType> toursType = tourDB.getToursType();
         request.setAttribute("toursType", toursType);
         request.setAttribute("tours", tours);
-        
+
         request.getRequestDispatcher("/view/admin/ToursManager.jsp").forward(request, response);
     }
     
