@@ -1,6 +1,6 @@
 <%-- 
-    Document   : ToursDetail
-    Created on : Oct 23, 2021, 9:34:25 PM
+    Document   : NewsDetail1
+    Created on : Nov 2, 2021, 12:50:29 AM
     Author     : ADMIN
 --%>
 
@@ -11,385 +11,225 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-        <jsp:include page="../link/LinkHead.jsp"></jsp:include>
-
-
+        <link href="../assets/css/tourDetails.css" rel="stylesheet" type="text/css"/>
 
     </head>
     <body>
         <jsp:include page="../home/Header.jsp"></jsp:include>
-            <form action="booktour">
-                <div class="container mt-5 mb-5">
-                    <div class="card">
-                        <div class="row g-0">
-                            <div class="col-md-6 border-end">
-                                <div class="d-flex flex-column justify-content-center">
-                                     <div class="main_image"> <img src="../images/${tourByCode.img}" id="main_product_image" width="350"> </div>
-                                <div class="thumbnail_images">
+            <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800&display=swap" rel="stylesheet">
+            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"><div class="pd-wrap">
+                <form action="booktour">
+                    <div class="container">
+                        <div class="heading-section">
+                            <h2>Tour Details</h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
 
-                                    <ul id="thumbnail">
-                                        <c:forEach var="i" items="${tourByCode.imgs}">                                     
-                                            <li><img onclick="changeImage(this)" src="../images/${i.img}" width="70"></li>
-                                            </c:forEach>
-                                    </ul>
+                                <div class="main_image" style="margin-left: 70px;"> 
+                                    <img src="../images/${tourByCode.img}" id="main_product_image" height="300px" width="350px">
+                            </div>
 
+                            <div class="thumbnail_images" style="margin-top: 50px;">
+                                <div id="thumbnail">
+                                    <c:forEach var="i" items="${tourByCode.imgs}">                                     
+                                        <img  height="100px" width="150px" onclick="changeImage(this)" src="../images/${i.img}" width="70">
+                                    </c:forEach>
                                 </div>
+
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="p-3 right-side">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h3>${tourByCode.tourName}</h3>
-                                </div>
-                                <div class="mt-2 pr-3 content">
+                            <div class="product-dtl">
+                                <div class="product-info">
+                                    <div class="product-name">
+                                        <h5 style="color: red">${tourByCode.tourName}</h5>
+                                    </div>
 
-                                    <h5>Tour Code: ${tourByCode.tourCode}</h5> <input type="hidden" name="tcode" value="${tourByCode.tourCode}" />
-                                    <br>
-                                    <h5>Duration: ${tourByCode.dateTime} </h5>
-                                    <br>
-                                    <h5> StartDate ${tourByCode.startDate} - EndDate: ${tourByCode.endDate} </h5>
-                                    <br>
-                                    <h5>Vehicle: ${tourByCode.vehicle}</h5>
-                                </div>
-                                <h2 style="color: red">${tourByCode.tourPrice}$</h2>
+                                    <div class="product-price-discount ">
+                                        <h5>${tourByCode.tourPrice}$</h5>
 
-                                <div class="buttons d-flex flex-row mt-5 gap-3"> 
-                                    <button type="submit" class="btn btn-dark">Book Tour</button> </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h5 >Tour Code: ${tourByCode.tourCode}</h5> <input type="hidden" name="tcode" value="${tourByCode.tourCode}" />
+                                        <br>
+                                        <h5>Duration: ${tourByCode.dateTime} </h5>
+                                        <br>
+                                        <h5> StartDate ${tourByCode.startDate} - EndDate: ${tourByCode.endDate} </h5>
+                                        <br>
+                                        <h5>Vehicle: ${tourByCode.vehicle}</h5>
+                                    </div>
+
+                                </div>
+                                <div class="product-count">
+                                    <button type="submit" class="round-black-btn">Book Tour</button> </div>
 
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
-        <div class="container">
-            <div class="row">                                    
-                <div class="col-md-12">
-                    <ul class="menu-items" style="font-size: 30px;">
-                        <li role="presentation">
-                            <a style="font-size: 20px;" href="#hotels" aria-controls="hotels" role="tab" data-toggle="tab">
-                                <i class="fa fa-building"></i>
-                                Schedule
-                            </a>
+            </form>
+            <div class="container">
+                <div class="product-info-tabs">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Description</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="description-tab" data-toggle="tab" href="#schedule" role="tab" aria-controls="description" aria-selected="true">Schedule</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Comments(${total})</a>
                         </li>
                     </ul>
-                    <div style="width:100%; border-top:1px solid silver">
-                        <p style="padding:15px; font-size: 16px; ">
-                            ${tourByCode.schedule}
-                        </p>
-
-                    </div>
-                </div>	
-                        <div class="col-md-12">
-                    <ul class="menu-items" style="font-size: 30px;">
-                        <li role="presentation">
-                            <a style="font-size: 20px;" href="#flights" aria-controls="flights" role="tab" data-toggle="tab">
-                                <i class="fa fa-plane"></i>
-                                Desciption
-                            </a>
-                        </li>
-                    </ul>
-                    <div style="width:100%; border-top:1px solid silver">
-                        <p style="padding:15px; font-size: 16px; ">
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
                             ${tourByCode.description}
-                        </p>
 
+                        </div>
+                        <div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="description-tab">
+                            ${tourByCode.schedule}
+                        </div>
+                        <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                            <c:forEach var="c" items="${comments}">
+
+                                ${c.username} <br> ${c.content}    ${c.datetime}
+                                <hr>
+                            </c:forEach>
+                            <hr>
+                            <div class="review-heading">Comment</div>
+
+                            <form name="myForm" class="review-form" action="tourDetailControl" method="POST" onsubmit="return validateForm()">
+
+                                <div class="form-group">
+                                    <label>Your comment</label>
+                                    <input type="hidden" name="tcode" value="${tourByCode.tourCode}" />
+                                    <textarea name="content" class="form-control" rows="10" required></textarea>
+                                </div>
+                                    <input type="hidden" name="user" value="${user}" />
+                                
+                                <input type="submit" class="round-black-btn" value="POST"/>
+                            </form>
+                        </div>
                     </div>
-                </div>	
+                </div>
             </div>
-        </div>      
+        </div>
+    </div>
 
 
 
-        <style>
-            .container{
-                background-color: white;
-            }
-            ul > li{margin-right:25px;font-weight:lighter;cursor:pointer}
-            li.active{border-bottom:3px solid silver;}
 
-            .item-photo{display:flex;justify-content:center;align-items:center;border-right:1px solid #f6f6f6;}
-            .menu-items{list-style-type:none;font-size:11px;display:inline-flex;margin-bottom:0;margin-top:20px}
-            .btn-success{width:100%;border-radius:0;}
-            .section{width:100%;margin-left:-15px;padding:2px;padding-left:15px;padding-right:15px;background:#f8f9f9}
-            .title-price{margin-top:30px;margin-bottom:0;color:black}
-            .title-attr{margin-top:0;margin-bottom:0;color:black;}
-            .btn-minus{cursor:pointer;font-size:7px;display:flex;align-items:center;padding:5px;padding-left:10px;padding-right:10px;border:1px solid gray;border-radius:2px;border-right:0;}
-            .btn-plus{cursor:pointer;font-size:7px;display:flex;align-items:center;padding:5px;padding-left:10px;padding-right:10px;border:1px solid gray;border-radius:2px;border-left:0;}
-            div.section > div {width:100%;display:inline-flex;}
-            div.section > div > input {margin:0;padding-left:5px;font-size:10px;padding-right:5px;max-width:18%;text-align:center;}
-            .attr,.attr2{cursor:pointer;margin-right:5px;height:20px;font-size:10px;padding:2px;border:1px solid gray;border-radius:2px;}
-            .attr.active,.attr2.active{ border:1px solid orange;}
+    <script>
+        function changeImage(element) {
 
-            @media (max-width: 426px) {
-                .container {margin-top:0px !important;}
-                .container > .row{padding:0 !important;}
-                .container > .row > .col-xs-12.col-sm-5{
-                    padding-right:0 ;    
+            var main_prodcut_image = document.getElementById('main_product_image');
+            main_prodcut_image.src = element.src;
+        }
+
+        function validateForm()
+        {
+           var user = document.forms["myForm"]["user"].value;
+          
+           if(user === ""){
+               alert("Login to post");
+               return false;
+           }
+
+        }
+
+        $(document).ready(function () {
+            var slider = $("#slider");
+            var thumb = $("#thumb");
+            var slidesPerPage = 4; //globaly define number of elements per page
+            var syncedSecondary = true;
+            slider.owlCarousel({
+                items: 1,
+                slideSpeed: 2000,
+                nav: false,
+                autoplay: false,
+                dots: false,
+                loop: true,
+                responsiveRefreshRate: 200
+            }).on('changed.owl.carousel', syncPosition);
+            thumb
+                    .on('initialized.owl.carousel', function () {
+                        thumb.find(".owl-item").eq(0).addClass("current");
+                    })
+                    .owlCarousel({
+                        items: slidesPerPage,
+                        dots: false,
+                        nav: true,
+                        item: 4,
+                        smartSpeed: 200,
+                        slideSpeed: 500,
+                        slideBy: slidesPerPage,
+                        navText: ['<svg width="18px" height="18px" viewBox="0 0 11 20"><path style="fill:none;stroke-width: 1px;stroke: #000;" d="M9.554,1.001l-8.607,8.607l8.607,8.606"/></svg>', '<svg width="25px" height="25px" viewBox="0 0 11 20" version="1.1"><path style="fill:none;stroke-width: 1px;stroke: #000;" d="M1.054,18.214l8.606,-8.606l-8.606,-8.607"/></svg>'],
+                        responsiveRefreshRate: 100
+                    }).on('changed.owl.carousel', syncPosition2);
+            function syncPosition(el) {
+                var count = el.item.count - 1;
+                var current = Math.round(el.item.index - (el.item.count / 2) - .5);
+                if (current < 0) {
+                    current = count;
                 }
-                .container > .row > .col-xs-12.col-sm-9 > div > p{
-                    padding-left:0 !important;
-                    padding-right:0 !important;
+                if (current > count) {
+                    current = 0;
                 }
-                .container > .row > .col-xs-12.col-sm-9 > div > ul{
-                    padding-left:10px !important;
-
-                }            
-                .section{width:104%;}
-                .menu-items{padding-left:0;}
+                thumb
+                        .find(".owl-item")
+                        .removeClass("current")
+                        .eq(current)
+                        .addClass("current");
+                var onscreen = thumb.find('.owl-item.active').length - 1;
+                var start = thumb.find('.owl-item.active').first().index();
+                var end = thumb.find('.owl-item.active').last().index();
+                if (current > end) {
+                    thumb.data('owl.carousel').to(current, 100, true);
+                }
+                if (current < start) {
+                    thumb.data('owl.carousel').to(current - onscreen, 100, true);
+                }
             }
-        </style>
-        <script>
-            $(document).ready(function () {
-                //-- Click on detail
-                $("ul.menu-items > li").on("click", function () {
-                    $("ul.menu-items > li").removeClass("active");
-                    $(this).addClass("active");
-                })
+            function syncPosition2(el) {
+                if (syncedSecondary) {
+                    var number = el.item.index;
+                    slider.data('owl.carousel').to(number, 100, true);
+                }
+            }
+            thumb.on("click", ".owl-item", function (e) {
+                e.preventDefault();
+                var number = $(this).index();
+                slider.data('owl.carousel').to(number, 300, true);
+            });
 
-                $(".attr,.attr2").on("click", function () {
-                    var clase = $(this).attr("class");
 
-                    $("." + clase).removeClass("active");
-                    $(this).addClass("active");
-                })
-
-                //-- Click on QUANTITY
-                $(".btn-minus").on("click", function () {
-                    var now = $(".section > div > input").val();
-                    if ($.isNumeric(now)) {
-                        if (parseInt(now) - 1 > 0) {
-                            now--;
-                        }
-                        $(".section > div > input").val(now);
-                    } else {
-                        $(".section > div > input").val("1");
+            $(".qtyminus").on("click", function () {
+                var now = $(".qty").val();
+                if ($.isNumeric(now)) {
+                    if (parseInt(now) - 1 > 0)
+                    {
+                        now--;
                     }
-                })
-                $(".btn-plus").on("click", function () {
-                    var now = $(".section > div > input").val();
-                    if ($.isNumeric(now)) {
-                        $(".section > div > input").val(parseInt(now) + 1);
-                    } else {
-                        $(".section > div > input").val("1");
-                    }
-                })
+                    $(".qty").val(now);
+                }
             })
-        </script>                    
-
-
-
-        <style>
-            body {
-                background-color: #ecedee
-            }
-
-            .card {
-                border: none;
-                overflow: hidden
-            }
-
-            .thumbnail_images ul {
-                list-style: none;
-                justify-content: center;
-                display: flex;
-                align-items: center;
-                margin-top: 10px
-            }
-
-            .thumbnail_images ul li {
-                margin: 5px;
-                padding: 10px;
-                border: 2px solid #eee;
-                cursor: pointer;
-                transition: all 0.5s
-            }
-
-            .thumbnail_images ul li:hover {
-                border: 2px solid #000
-            }
-
-            .main_image {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                border-bottom: 1px solid #eee;
-                height: 400px;
-                width: 100%;
-                overflow: hidden
-            }
-
-            .heart {
-                height: 29px;
-                width: 29px;
-                background-color: #eaeaea;
-                border-radius: 50%;
-                display: flex;
-                justify-content: center;
-                align-items: center
-            }
-
-            .content p {
-                font-size: 12px
-            }
-
-            .ratings span {
-                font-size: 14px;
-                margin-left: 12px
-            }
-
-            .colors {
-                margin-top: 5px
-            }
-
-            .colors ul {
-                list-style: none;
-                display: flex;
-                padding-left: 0px
-            }
-
-            .colors ul li {
-                height: 20px;
-                width: 20px;
-                display: flex;
-                border-radius: 50%;
-                margin-right: 10px;
-                cursor: pointer
-            }
-
-            .colors ul li:nth-child(1) {
-                background-color: #6c704d
-            }
-
-            .colors ul li:nth-child(2) {
-                background-color: #96918b
-            }
-
-            .colors ul li:nth-child(3) {
-                background-color: #68778e
-            }
-
-            .colors ul li:nth-child(4) {
-                background-color: #263f55
-            }
-
-            .colors ul li:nth-child(5) {
-                background-color: black
-            }
-
-            .right-side {
-                position: relative
-            }
-
-            .search-option {
-                position: absolute;
-                background-color: #000;
-                overflow: hidden;
-                align-items: center;
-                color: #fff;
-                width: 200px;
-                height: 200px;
-                border-radius: 49% 51% 50% 50% / 68% 69% 31% 32%;
-                left: 30%;
-                bottom: -250px;
-                transition: all 0.5s;
-                cursor: pointer
-            }
-
-            .search-option .first-search {
-                position: absolute;
-                top: 20px;
-                left: 90px;
-                font-size: 20px;
-                opacity: 1000
-            }
-
-            .search-option .inputs {
-                opacity: 0;
-                transition: all 0.5s ease;
-                transition-delay: 0.5s;
-                position: relative
-            }
-
-            .search-option .inputs input {
-                position: absolute;
-                top: 200px;
-                left: 30px;
-                padding-left: 20px;
-                background-color: transparent;
-                width: 300px;
-                border: none;
-                color: #fff;
-                border-bottom: 1px solid #eee;
-                transition: all 0.5s;
-                z-index: 10
-            }
-
-            .search-option .inputs input:focus {
-                box-shadow: none;
-                outline: none;
-                z-index: 10
-            }
-
-            .search-option:hover {
-                border-radius: 0px;
-                width: 100%;
-                left: 0px
-            }
-
-            .search-option:hover .inputs {
-                opacity: 1
-            }
-
-            .search-option:hover .first-search {
-                left: 27px;
-                top: 25px;
-                font-size: 15px
-            }
-
-            .search-option:hover .inputs input {
-                top: 20px
-            }
-
-            .search-option .share {
-                position: absolute;
-                right: 20px;
-                top: 22px
-            }
-
-            .buttons .btn {
-                height: 50px;
-                width: 150px;
-                border-radius: 0px !important
-            }
-        </style>
-
-        <script>
-            function changeImage(element) {
-
-                var main_prodcut_image = document.getElementById('main_product_image');
-                main_prodcut_image.src = element.src;
-
-
-            }
-        </script>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-        <jsp:include page="../home/Footer.jsp"></jsp:include>
-        <jsp:include page="../link/LinkJS.jsp"></jsp:include>
-
-
-
-
-
-    </body>
+            $(".qtyplus").on("click", function () {
+                var now = $(".qty").val();
+                if ($.isNumeric(now)) {
+                    $(".qty").val(parseInt(now) + 1);
+                }
+            });
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="	sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <jsp:include page="../home/Footer.jsp"></jsp:include>
+</body>
 </html>
