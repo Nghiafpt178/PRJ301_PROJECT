@@ -20,12 +20,12 @@ import model.Booktour;
  *
  * @author ADMIN
  */
-public class EditTourBookedController extends HttpServlet {
+public class EditTourBookedController extends BaseRequiredAuthenController {
 
    
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int bid = Integer.parseInt(request.getParameter("bid"));
         TourDBContext tourDB = new TourDBContext();
@@ -39,7 +39,7 @@ public class EditTourBookedController extends HttpServlet {
 
   
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void processPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String requestType = request.getParameter("requestType");
         if (requestType != null) {
