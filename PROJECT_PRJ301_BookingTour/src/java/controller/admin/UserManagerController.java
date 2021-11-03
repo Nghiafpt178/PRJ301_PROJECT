@@ -20,10 +20,10 @@ import model.Group;
  *
  * @author ADMIN
  */
-public class UserManagerController extends HttpServlet {
+public class UserManagerController extends BaseRequiredAuthenController {
     
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         DecentraliseDBContext decen = new DecentraliseDBContext();
@@ -37,7 +37,7 @@ public class UserManagerController extends HttpServlet {
     }
     
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void processPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int gid = Integer.parseInt(request.getParameter("gid"));
         String user = request.getParameter("username");
