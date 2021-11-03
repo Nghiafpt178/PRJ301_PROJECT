@@ -20,7 +20,7 @@ import model.Comment;
  *
  * @author ADMIN
  */
-public class CommentController extends HttpServlet {
+public class CommentController extends BaseRequiredAuthenController {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,7 +47,7 @@ public class CommentController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void processGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String raw_page = request.getParameter("page");
         if (raw_page == null || raw_page.length() == 0) {
@@ -74,7 +74,7 @@ public class CommentController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void processPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
     }
