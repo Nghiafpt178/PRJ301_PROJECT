@@ -115,6 +115,21 @@ public class AccountDBContext extends DBContext {
         }
 
     }
+    public void updatePass(String pass, String user) {
+        try {
+
+            String sql = "update account\n"
+                    + "set password = ? where username = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, pass);
+            stm.setString(2, user);
+            stm.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     public static void main(String[] args) {
         AccountDBContext accountDB = new AccountDBContext();
