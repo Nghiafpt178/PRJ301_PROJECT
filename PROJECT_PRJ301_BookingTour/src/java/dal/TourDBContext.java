@@ -263,7 +263,7 @@ public class TourDBContext extends DBContext {
                     + "           ,[startDate]\n"
                     + "           ,[endDate]\n"
                     + "           ,[price]\n"
-                    + "           ,[status]\n"
+                    + "           ,[status_id]\n"
                     + "           ,[fullname]\n"
                     + "           ,[phone]\n"
                     + "           ,[email]\n"
