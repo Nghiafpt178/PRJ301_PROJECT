@@ -301,7 +301,7 @@ public class TourDBContext extends DBContext {
 
     }
 
-    public ArrayList<Tour> searchTour(String name, Date startDate, Date endDate) {
+    public ArrayList<Tour> searchTour(String name, Date startDate, Date endDate, int tid) {
         ArrayList<Tour> searchTour = new ArrayList<>();
         try {
             String sql = "SELECT [tourCode],[tourName],[tourPrice],[tourNumberGuests],\n"
@@ -338,6 +338,14 @@ public class TourDBContext extends DBContext {
                 params.put(paramIndex, param);
 
             }
+            if(tid != -1){
+                sql += "and tourType= ? ";
+                paramIndex++;
+                Object[] param = new Object[2];
+                param[0] = Integer.class.getTypeName();
+                param[1] = tid;
+                params.put(paramIndex, param);
+            }
 
             PreparedStatement stm = connection.prepareStatement(sql);
 
@@ -351,6 +359,9 @@ public class TourDBContext extends DBContext {
                     stm.setDate(index, (Date) value[1]);
                 } else if (type.equals(Date.class.getTypeName())) {
                     stm.setDate(index, (Date) value[1]);
+                }
+                else if (type.equals(Integer.class.getTypeName())) {
+                    stm.setInt(index, Integer.parseInt(value[1].toString()));
                 }
 
             }
