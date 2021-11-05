@@ -48,13 +48,19 @@ public class TourController extends HttpServlet {
         String raw_tourName = request.getParameter("tname");
         String raw_startDate = request.getParameter("startDate");
         String raw_endDate = request.getParameter("endDate");
+        String raw_tid = request.getParameter("tid");
         String name = raw_tourName;
       
+        if(raw_tid == null || raw_tid.length() == 0){
+            raw_tid = "-1";
+        }
+        
+        int tid = Integer.parseInt(raw_tid);
         Date starDate = (raw_startDate != null && raw_startDate.length() > 0) ? Date.valueOf(raw_startDate) : null;
         Date endDate = (raw_endDate != null && raw_endDate.length() > 0) ? Date.valueOf(raw_endDate) : null;
 
         TourDBContext tourDB = new TourDBContext();
-        ArrayList<Tour> tours = tourDB.searchTour(name, starDate, endDate);
+        ArrayList<Tour> tours = tourDB.searchTour(name, starDate, endDate, tid);
         request.setAttribute("tours", tours);
 
         request.getRequestDispatcher("/view/tour/Tours.jsp").forward(request, response);
