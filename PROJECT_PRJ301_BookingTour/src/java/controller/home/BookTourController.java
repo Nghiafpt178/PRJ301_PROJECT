@@ -7,6 +7,8 @@ package controller.home;
 
 import dal.TourDBContext;
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +27,9 @@ public class BookTourController extends HttpServlet {
             throws ServletException, IOException {
         String tourcode = request.getParameter("tcode");
         request.getSession().setAttribute("tourcode", tourcode);
+        TourDBContext tour = new TourDBContext();
+        Tour toursByCode = tour.getToursByCode(tourcode);
+        request.setAttribute("toursByCode", toursByCode);
         request.getRequestDispatcher("/view/tour/BookTour.jsp").forward(request, response);
     }
 
@@ -42,15 +47,16 @@ public class BookTourController extends HttpServlet {
         booktour.setEmail(email);
         booktour.setAddress(address);
         booktour.setRequire(require);
-        booktour.setStatus(0);
+        booktour.setStatus(1);
         String username =  (String) request.getSession().getAttribute("username");
         booktour.setUsername(username);
         String tourcode = (String) request.getSession().getAttribute("tourcode");
         TourDBContext tour = new TourDBContext();
-        Tour toursByCode = tour.getToursByCode(tourcode);
+        Tour toursByCode = tour.getToursByCode(tourcode); 
         booktour.setTour(toursByCode);
         tour.bookTour(booktour);
-        response.getWriter().print("ok");
+        request.setAttribute("mess", "Thank you for booking!");
+        request.getRequestDispatcher("/view/tour/BookTour.jsp").forward(request, response);
 
     }
     
