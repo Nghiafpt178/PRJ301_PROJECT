@@ -13,7 +13,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Account;
 import model.Comment;
+import model.Feature;
 import model.Group;
+import model.GroupFeature;
 
 /**
  *
@@ -176,7 +178,7 @@ public class DecentraliseDBContext extends DBContext {
 
         return 0;
     }
-    
+
     public int getRowCountComment() {
 
         String sql = "select count(*) as total from Comments";
@@ -193,10 +195,141 @@ public class DecentraliseDBContext extends DBContext {
         return 0;
     }
 
+    public GroupFeature getAllFeatures(int gid) {
+
+        try {
+            String sql = "select distinct gf.fid,gf.gid,g.gname,f.url, f.fname\n"
+                    + "                  from  groupaccount ga \n"
+                    + "                   left join [group] g on ga.gid = g.gid \n"
+                    + "                   left join GroupFeature gf on gf.gid = g.gid\n"
+                    + "                   left join Feature f on f.fid = gf.fid\n"
+                    + "                    where g.gid =?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, gid);
+
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                GroupFeature gf = new GroupFeature();
+                Group g = new Group();
+                Feature f = new Feature();
+                f.setId(rs.getInt("fid"));
+                g.setGid(rs.getInt("gid"));
+                g.setGname(rs.getString("gname"));
+                f.setUrl(rs.getString("url"));
+                f.setName(rs.getString("fname"));
+                gf.setF(f);
+                gf.setG(g);
+                return gf;
+
+            }
+
+        } catch (SQLException e) {
+
+        }
+        return null;
+
+    }
+
+    public ArrayList<Feature> getFeaturesByAccount(int gid) {
+        ArrayList<Feature> features = new ArrayList<>();
+        try {
+            String sql = "select distinct gf.fid,gf.gid,g.gname,f.url, f.fname\n"
+                    + "                  from  groupaccount ga \n"
+                    + "                   left join [group] g on ga.gid = g.gid \n"
+                    + "                   left join GroupFeature gf on gf.gid = g.gid\n"
+                    + "                   left join Feature f on f.fid = gf.fid\n"
+                    + "                    where g.gid =?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, gid);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Feature f = new Feature();
+                f.setId(rs.getInt("fid"));
+                f.setUrl(rs.getString("url"));
+                f.setName(rs.getString("fname"));
+                features.add(f);
+
+            }
+
+        } catch (SQLException e) {
+
+        }
+        return features;
+
+    }
+
+    public ArrayList<Feature> getFeatures() {
+        ArrayList<Feature> features = new ArrayList<>();
+        try {
+            String sql = "SELECT [fid]\n"
+                    + "      ,[url]\n"
+                    + "      ,[fname]\n"
+                    + "  FROM [Feature]";
+            PreparedStatement stm = connection.prepareStatement(sql);
+
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Feature f = new Feature();
+                f.setId(rs.getInt("fid"));
+                f.setUrl(rs.getString("url"));
+                f.setName(rs.getString("fname"));
+                features.add(f);
+
+            }
+
+        } catch (SQLException e) {
+
+        }
+        return features;
+
+    }
+
+    public void update(Group g) {
+        try {
+            connection.setAutoCommit(false);
+
+            //query delete data from table Student_Certificate
+            String sql_delete_GroupFeature = "DELETE FROM [GroupFeature]\n"
+                    + "      WHERE gid = ?";
+            PreparedStatement stm_delete = connection.prepareStatement(sql_delete_GroupFeature);
+            stm_delete.setInt(1, g.getGid());
+            stm_delete.executeUpdate();
+            //query to re-insert data in Student_Certificate
+            for (GroupFeature gf : g.getGf()) {
+                String sql_insert_sc = "INSERT INTO [GroupFeature]\n"
+                        + "           ([gid]\n"
+                        + "           ,[fid])\n"
+                        + "     VALUES\n"
+                        + "           (?\n"
+                        + "           ,?)";
+                PreparedStatement stm_insert_sc = connection.prepareStatement(sql_insert_sc);
+                stm_insert_sc.setInt(1, gf.getG().getGid());
+                stm_insert_sc.setInt(2, gf.getF().getId());
+                stm_insert_sc.executeUpdate();
+            }
+
+            connection.commit();
+        } catch (SQLException ex) {
+            Logger.getLogger(DecentraliseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                connection.rollback();
+            } catch (SQLException ex1) {
+                Logger.getLogger(DecentraliseDBContext.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(DecentraliseDBContext.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
     public static void main(String[] args) {
         DecentraliseDBContext db = new DecentraliseDBContext();
-        Account a = db.getAllAccountByUser("admin");
-        System.out.println(a);
+        GroupFeature allFeatures = db.getAllFeatures(1);
+        System.out.println(allFeatures);
+
     }
 
 }
